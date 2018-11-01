@@ -12,8 +12,9 @@ npm i -g nodemon
 ```
 #### Graphics
 
-https://github.com/processing/p5.js/releases/download/0.7.2/p5.min.js
+Reference at https://p5js.org/reference/
+Download p5.min.js at https://github.com/processing/p5.js/releases/download/0.7.2/p5.min.js
 
 #### Socket
 
-https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js
+Socket.io latest links can be found at https://cdnjs.com/libraries/socket.io

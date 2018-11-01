@@ -5,3 +5,8 @@ body {
   min-height: 100vh;
   margin: 0 auto;
 }
+
+.chat {
+  position: absolute; z-index: 1;
+  top: 90%;
+}

@@ -2,11 +2,11 @@
  * Every entity object has a x and y value.
  */
 class Entity {
-	constructor(x, y, angle, size) {
-		this.x = x;
-		this.y = y;
-		this.angle = angle;
-		this.size = size;
+	constructor(a) {
+		this.x = a.x;
+		this.y = a.y;
+		this.angle = a.angle;
+		this.size = a.size;
 	}
 	
 	draw() {
@@ -23,10 +23,10 @@ class Entity {
 }
 
 class LivingEntity extends Entity {
-	constructor(x, y, angle, size, health) {
-		super(x, y, angle, size);
+	constructor(a) {
+		super(a);
 		
-		this.health = health;
+		this.health = a.health;
 	}
 	
 	draw() {
@@ -36,14 +36,13 @@ class LivingEntity extends Entity {
 }
 
 class Player extends LivingEntity {
-	constructor(x, y, angle, size, name, health, weapon, client) {
-		super(x, y, angle, size, health);
+	constructor(a) {
+		super(a);
 		
-		this.id = id;
-		this.client = client;
-		this.name = name;
-		this.storedAngle = angle;
-		if (weapon) this.weapon = new weapon(x, y, size);
+		this.client = a.client;
+		this.name = a.name;
+		this.storedAngle = a.angle;
+		if (a.weapon) this.weapon = new weapon(a.x, a.y, a.size);
 	}
 	
 	draw() {
@@ -151,8 +150,8 @@ class Player extends LivingEntity {
 }
 
 class Zombie extends LivingEntity {
-	constructor(x, y, angle, size, health) {
-		super(x, y, angle, size, health);
+	constructor(a) {
+		super(a);
 		
 		this.target = null;
 	}
@@ -206,34 +205,34 @@ class Zombie extends LivingEntity {
 }
 
 class Mage extends Player {
-	constructor(x, y, size, name, weapon, health) {
-		super(x, y, size, name, weapon, health);
+	constructor(a) {
+		super(a);
 		
 		this.mana = 100;
 	}
 }
 
 class Archer extends Player {
-	constructor(x, y, size, name, weapon, health) {
-		super(x, y, size, name, weapon, health);
+	constructor(a) {
+		super(a);
 	}
 }
 
 class Swordsman extends Player {
-	constructor(x, y, size, name, weapon, health) {
-		super(x, y, size, name, weapon, health);
+	constructor(a) {
+		super(a);
 	}
 }
 
 class Tank extends Swordsman {
-	constructor(x, y, size, name, weapon, health) {
-		super(x, y, size, name, weapon, health);
+	constructor(a) {
+		super(a);
 	}
 }
 
 class Weapon extends Entity {
-	constructor(x, y, size) {
-		super(x, y, size);
+	constructor(a) {
+		super(a);
 	}
 	
 	draw() {
@@ -242,8 +241,8 @@ class Weapon extends Entity {
 }
 
 class Bow extends Weapon {
-	constructor(x, y, size) {
-		super(x, y, size);
+	constructor(a) {
+		super(a);
 	}
 	
 	draw() {
@@ -259,8 +258,8 @@ class Bow extends Weapon {
 }
 
 class Sword extends Weapon {
-	constructor(x, y, size) {
-		super(x, y, size);
+	constructor(a) {
+		super(a);
 	}
 	
 	draw() {
@@ -275,8 +274,8 @@ class Sword extends Weapon {
 }
 
 class Wand extends Weapon {
-	constructor(x, y, size) {
-		super(x, y, size);
+	constructor(a) {
+		super(a);
 	}
 	
 	draw() {
@@ -293,8 +292,8 @@ class Wand extends Weapon {
 }
 
 class Projectile extends Entity {
-	constructor(x, y, size) {
-		super(x, y, size);
+	constructor(a) {
+		super(a);
 	}
 	
 	draw() {
@@ -303,8 +302,8 @@ class Projectile extends Entity {
 }
 
 class Arrow extends Projectile {
-	constructor(x, y, size) {
-		super(x, y, size);
+	constructor(a) {
+		super(a);
 	}
 	
 	draw() {
