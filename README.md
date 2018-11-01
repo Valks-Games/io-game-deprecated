@@ -1,3 +1,6 @@
+### IO Game
+A multiplayer in-browser game. The end goal is to create a zombie survival like scenario.
+
 #### Node Modules Required
 ```
 npm i express --save
