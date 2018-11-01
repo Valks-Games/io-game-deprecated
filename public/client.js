@@ -38,7 +38,7 @@ function setup() {
     });
 	
 	// Entities
-	entities.push(new Player(100, 100, 0, 20, "Pooplicker", 20, null, true)); // client
+	entities.push(new Player(100, 100, 0, 20, "Someone", 20, null, true)); // client
 	//entities.push(new LivingEntity(200, 200, 20, 20));
 	//entities.push(new Zombie(120, 120, 20, 20));
 	

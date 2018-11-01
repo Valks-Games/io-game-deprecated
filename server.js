@@ -13,39 +13,25 @@ app.use(express.static('public'));
 // Socket setup
 var io = socket(server); // Waiting for client. Listen out for when the connection is made..
 
-let players = [];
+var Player = require('./classes/player.js');
 
-function Player(id, x, y, size, name, health, angle) { // Created to simplify things..
-  this.id = id;
-  this.x = x;
-  this.y = y;
-  this.size = size;
-  this.name = name;
-  this.health = health;
-  this.angle = angle;
-}
+let players = [];
 
 io.on('connection', function(socket) {
 	socket.on('new_player', function(data) {
 		let player = new Player(socket.id, data.x, data.y, data.size, data.name, data.health, 0);
 		players.push(player);
-		
-		console.log(players);
 
 		io.sockets.emit('client_ids', players); // Emit data because all clients need to see new client..
 
-		socket.emit('handshake', socket.id);
-
-		//io.sockets.emit('zombies_update', zombies); // Players need to see the zombie positions for the first time otherwise they will be invisible!
-		//io.sockets.emit('trees', trees); // Trees
+		socket.emit('handshake', socket.id); // So the client can tell what id they are..
 
 		console.log(socket.id + " joined. (" + players.length + " players total)");
 	});
 	
 	socket.on('player_update', function(data) {
-		// This is how we tell which player to update..
-		for (let player of players) {
-		  if (player.id == socket.id) {
+		for (let player of players) { 
+		  if (player.id == socket.id) { // This is how we tell which player to update..
 			player.x = data.x;
 			player.y = data.y;
 			player.size = data.size;
@@ -68,6 +54,4 @@ io.on('connection', function(socket) {
 
 		console.log(socket.id + " left. (" + players.length + " players total)");
 	});
-	//console.log(socket.id + " joined.");
 });
-
