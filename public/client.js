@@ -140,16 +140,7 @@ function drawWeapons() {
 function drawPlayers() {
 	for (player of players) { // Other clients
 		if (player.id == id) continue; // Do not draw this client, only draw other clients
-		new Player({
-			x: player.x,
-			y: player.y,
-			angle: player.angle,
-			size: player.size,
-			name: player.name,
-			health: player.health,
-			color: player.color,
-			client: false
-		}).draw();
+		new Player(player).draw();
 	}
 }
 
@@ -158,16 +149,7 @@ function drawServerMessages() {
 		for (let player of players) {
 			if (player.id != message.id) continue;
 			if (player.id == id) continue;
-			new Player({
-				x: player.x,
-				y: player.y,
-				angle: player.angle,
-				size: player.size,
-				name: player.name,
-				health: player.health,
-				color: player.color,
-				client: false
-			}).drawMessage(message.text);
+			new Player(player).drawMessage(message.text);
 		}
 	}
 }
