@@ -1,5 +1,6 @@
 const express = require('express');
 const socket = require('socket.io');
+const config = require('./config.json');
 
 // App setup
 const app = express();
@@ -16,8 +17,6 @@ const io = socket(server); // Waiting for client. Listen out for when the connec
 // Classes
 const Player = require('./classes/player.js');
 const Zombie = require('./classes/zombie.js');
-
-const config = require('./config.json');
 
 const players = [];
 const zombies = [];

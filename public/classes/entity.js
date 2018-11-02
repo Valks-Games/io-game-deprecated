@@ -2,298 +2,298 @@
  * Every entity object has a x and y value.
  */
 class Entity {
-	constructor(a) {
-		this.x = a.x;
-		this.y = a.y;
-		this.angle = a.angle;
-		this.size = a.size;
-	}
+  constructor(a) {
+    this.x = a.x;
+    this.y = a.y;
+    this.angle = a.angle;
+    this.size = a.size;
+  }
 
-	draw() {
+  draw() {
 
-	}
+  }
 
-	angleTowardsMouse() {
-		let dx = winMouseX - width / 2;
-		let dy = winMouseY - height / 2;
-		let angle = Math.atan2(dy, dx);
+  angleTowardsMouse() {
+    const dx = winMouseX - width / 2;
+    const dy = winMouseY - height / 2;
+    const angle = Math.atan2(dy, dx);
 
-		return angle;
-	}
+    return angle;
+  }
 }
 
 class LivingEntity extends Entity {
-	constructor(a) {
-		super(a);
+  constructor(a) {
+    super(a);
 
-		this.health = a.health;
-		this.color = a.color;
-	}
+    this.health = a.health;
+    this.color = a.color;
+  }
 
-	draw() {
-		if (this.color) {
-			fill(this.color.r, this.color.g, this.color.b);
-		} else {
-			fill(0);
-		}
-		ellipse(this.x, this.y, this.size, this.size);
-	}
+  draw() {
+    if (this.color) {
+      fill(this.color.r, this.color.g, this.color.b);
+    } else {
+      fill(0);
+    }
+    ellipse(this.x, this.y, this.size, this.size);
+  }
 }
 
 class Player extends LivingEntity {
-	constructor(a) {
-		super(a);
+  constructor(a) {
+    super(a);
 
-		this.client = a.client;
-		this.name = a.name;
-		this.storedAngle = a.angle;
-		if (a.weapon) this.weapon = new weapon(a.x, a.y, a.size);
-	}
+    this.client = a.client;
+    this.name = a.name;
+    this.storedAngle = a.angle;
+    if (a.weapon) this.weapon = new weapon(a.x, a.y, a.size);
+  }
 
-	draw() {
-		this.drawRotatingElements();
-		this.drawNonRotatingElements();
-	}
+  draw() {
+    this.drawRotatingElements();
+    this.drawNonRotatingElements();
+  }
 
-	drawMessage(message) {
-		push();
-		fill(0, 200);
-		let padding = 2;
-		noStroke();
-		rect(this.x - textWidth(message) / 2 - padding, this.y - this.size / 1.5 - textAscent() * 2 + padding, textWidth(message) + padding * 2, textAscent(), 20);
-		fill(255);
-		text(message, this.x - textWidth(message) / 2, this.y - this.size / 1.5 - textAscent());
-		stroke(0);
-		pop();
-	}
+  drawMessage(message) {
+    push();
+    fill(0, 200);
+    const padding = 2;
+    noStroke();
+    rect(this.x - textWidth(message) / 2 - padding, this.y - this.size / 1.5 - textAscent() * 2 + padding, textWidth(message) + padding * 2, textAscent(), 20);
+    fill(255);
+    text(message, this.x - textWidth(message) / 2, this.y - this.size / 1.5 - textAscent());
+    stroke(0);
+    pop();
+  }
 
-	handlePlayerFunctions() {
-		if (this.client) {
-			this.angle = this.angleTowardsMouse();
-		}
+  handlePlayerFunctions() {
+    if (this.client) {
+      this.angle = this.angleTowardsMouse();
+    }
 
-		if (this.angle != this.storedAngle) sendData = true;
-		this.storedAngle = this.angle;
+    if (this.angle != this.storedAngle) sendData = true;
+    this.storedAngle = this.angle;
 
-		this.handleMovement(); // Player can move
-		this.pickup(); // Player can pick up stuff
-		this.drop(); // Player can drop stuff
-	}
+    this.handleMovement(); // Player can move
+    this.pickup(); // Player can pick up stuff
+    this.drop(); // Player can drop stuff
+  }
 
-	drawRotatingElements() {
-		push();
-		translate(this.x, this.y);
-		rotate(this.angle + PI + PI / 2);
-		translate(-this.x, -this.y);
+  drawRotatingElements() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle + PI + PI / 2);
+    translate(-this.x, -this.y);
 
-		if (this.weapon) this.weapon.draw();
-		this.drawHands();
-		super.draw();
-		this.drawEyes();
-		pop();
-	}
+    if (this.weapon) this.weapon.draw();
+    this.drawHands();
+    super.draw();
+    this.drawEyes();
+    pop();
+  }
 
-	drawNonRotatingElements() {
-		text(this.name, this.x - textWidth(this.name) / 2, this.y - this.size / 2 - textDescent());
-	}
+  drawNonRotatingElements() {
+    text(this.name, this.x - textWidth(this.name) / 2, this.y - this.size / 2 - textDescent());
+  }
 
-	drawEyes() {
-		fill(100, 100, 200);
-		ellipse(this.x + this.size / 6, this.y + this.size / 3, this.size / 10, this.size / 10);
-		ellipse(this.x - this.size / 6, this.y + this.size / 3, this.size / 10, this.size / 10);
-	}
+  drawEyes() {
+    fill(100, 100, 200);
+    ellipse(this.x + this.size / 6, this.y + this.size / 3, this.size / 10, this.size / 10);
+    ellipse(this.x - this.size / 6, this.y + this.size / 3, this.size / 10, this.size / 10);
+  }
 
-	drawHands() {
-		fill(0);
-		ellipse(this.x + this.size / 3, this.y + this.size / 3, this.size / 5, this.size / 5);
-		ellipse(this.x - this.size / 3, this.y + this.size / 3, this.size / 5, this.size / 5);
-	}
+  drawHands() {
+    fill(0);
+    ellipse(this.x + this.size / 3, this.y + this.size / 3, this.size / 5, this.size / 5);
+    ellipse(this.x - this.size / 3, this.y + this.size / 3, this.size / 5, this.size / 5);
+  }
 
-	handleMovement() {
-		if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-			this.x -= 1;
-			if (this.weapon) this.weapon.x -= 1;
-			sendData = true;
-		}
-		if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-			this.x += 1;
-			if (this.weapon) this.weapon.x += 1;
-			sendData = true;
-		}
-		if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
-			this.y += 1;
-			if (this.weapon) this.weapon.y += 1;
-			sendData = true;
-		}
-		if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
-			this.y -= 1;
-			if (this.weapon) this.weapon.y -= 1;
-			sendData = true;
-		}
-	}
+  handleMovement() {
+    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+      this.x -= 1;
+      if (this.weapon) this.weapon.x -= 1;
+      sendData = true;
+    }
+    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+      this.x += 1;
+      if (this.weapon) this.weapon.x += 1;
+      sendData = true;
+    }
+    if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
+      this.y += 1;
+      if (this.weapon) this.weapon.y += 1;
+      sendData = true;
+    }
+    if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
+      this.y -= 1;
+      if (this.weapon) this.weapon.y -= 1;
+      sendData = true;
+    }
+  }
 
-	drop() {
-		if (!keyIsDown(82)) return; // Check for user 'r' input
-		if (!this.weapon) return; // No weapon equipped
-		weapons.push(this.weapon); // Place weapon back in world
-		this.weapon = null;
-	}
+  drop() {
+    if (!keyIsDown(82)) return; // Check for user 'r' input
+    if (!this.weapon) return; // No weapon equipped
+    weapons.push(this.weapon); // Place weapon back in world
+    this.weapon = null;
+  }
 
-	pickup() {
-		if (!keyIsDown(69)) return; // Check for user 'e' input
-		if (this.weapon) return; // Player already has a weapon equpped
+  pickup() {
+    if (!keyIsDown(69)) return; // Check for user 'e' input
+    if (this.weapon) return; // Player already has a weapon equpped
 
-		// Find the nearest weapon from the player
-		let nearestDistance = this.size * 1.5;
-		let nearestWeapon = null;
+    // Find the nearest weapon from the player
+    let nearestDistance = this.size * 1.5;
+    let nearestWeapon = null;
 
-		for (const weapon of weapons) {
-			const distance = dist(weapon.x, weapon.y, this.x, this.y)
+    for (const weapon of weapons) {
+      const distance = dist(weapon.x, weapon.y, this.x, this.y);
 
-			if (distance < this.size * 1.5 && distance < nearestDistance) {
-				nearestDistance = distance;
-				nearestWeapon = weapon;
-			}
-		}
+      if (distance < this.size * 1.5 && distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestWeapon = weapon;
+      }
+    }
 
-		if (!nearestWeapon) return; // No weapon was found
+    if (!nearestWeapon) return; // No weapon was found
 
-		this.weapon = nearestWeapon; // Update the players weapon
-		this.weapon.x = this.x; // Re-update the weapon x
-		this.weapon.y = this.y; // Re-update the weapon y
+    this.weapon = nearestWeapon; // Update the players weapon
+    this.weapon.x = this.x; // Re-update the weapon x
+    this.weapon.y = this.y; // Re-update the weapon y
 
-		weapons.splice(weapons.indexOf(nearestWeapon), 1); // Remove the weapon from the world
-	}
+    weapons.splice(weapons.indexOf(nearestWeapon), 1); // Remove the weapon from the world
+  }
 }
 
 class Zombie extends LivingEntity {
-	constructor(a) {
-		super(a);
+  constructor(a) {
+    super(a);
 
-		this.target = null;
-	}
+    this.target = null;
+  }
 
-	draw() {
-		super.draw();
-		this.drawEyes();
-	}
+  draw() {
+    super.draw();
+    this.drawEyes();
+  }
 
-	drawEyes() {
-		fill(0, 255, 0);
-		ellipse(this.x, this.y, this.size / 10, this.size / 10);
-		ellipse(this.x, this.y, this.size / 10, this.size / 10);
-	}
+  drawEyes() {
+    fill(0, 255, 0);
+    ellipse(this.x, this.y, this.size / 10, this.size / 10);
+    ellipse(this.x, this.y, this.size / 10, this.size / 10);
+  }
 }
 
 class Mage extends Player {
-	constructor(a) {
-		super(a);
+  constructor(a) {
+    super(a);
 
-		this.mana = 100;
-	}
+    this.mana = 100;
+  }
 }
 
 class Archer extends Player {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 }
 
 class Swordsman extends Player {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 }
 
 class Tank extends Swordsman {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 }
 
 class Weapon extends Entity {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 
-	draw() {
+  draw() {
 
-	}
+  }
 }
 
 class Bow extends Weapon {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 
-	draw() {
-		push();
-		noFill();
-		strokeWeight(this.size / 20);
-		stroke(139, 69, 19);
-		arc(this.x, this.y + this.size / 10, this.size, this.size, 0, PI);
-		stroke(50);
-		line(this.x, this.y + this.size / 2 - this.size / 20, this.x, this.y + this.size / 2 + this.size / 4);
-		pop();
-	}
+  draw() {
+    push();
+    noFill();
+    strokeWeight(this.size / 20);
+    stroke(139, 69, 19);
+    arc(this.x, this.y + this.size / 10, this.size, this.size, 0, PI);
+    stroke(50);
+    line(this.x, this.y + this.size / 2 - this.size / 20, this.x, this.y + this.size / 2 + this.size / 4);
+    pop();
+  }
 }
 
 class Sword extends Weapon {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 
-	draw() {
-		push();
-		fill(139, 69, 19);
-		stroke(0);
-		let swordWidth = this.size / 10;
+  draw() {
+    push();
+    fill(139, 69, 19);
+    stroke(0);
+    const swordWidth = this.size / 10;
 
-		rect(this.x - swordWidth / 2, this.y + this.size / 2 - this.size / 10, swordWidth, this.size / 2);
-		pop();
-	}
+    rect(this.x - swordWidth / 2, this.y + this.size / 2 - this.size / 10, swordWidth, this.size / 2);
+    pop();
+  }
 }
 
 class Wand extends Weapon {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 
-	draw() {
-		push();
-		fill(139, 69, 19);
-		let wandWidth = this.size / 10;
+  draw() {
+    push();
+    fill(139, 69, 19);
+    const wandWidth = this.size / 10;
 
-		rect(this.x - wandWidth / 2, this.y + this.size / 2 - this.size / 10, wandWidth, this.size / 2);
+    rect(this.x - wandWidth / 2, this.y + this.size / 2 - this.size / 10, wandWidth, this.size / 2);
 
-		fill(255, 0, 0);
-		ellipse(this.x, this.y + this.size - this.size / 10, this.size / 8, this.size / 8);
-		pop();
-	}
+    fill(255, 0, 0);
+    ellipse(this.x, this.y + this.size - this.size / 10, this.size / 8, this.size / 8);
+    pop();
+  }
 }
 
 class Projectile extends Entity {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 
-	draw() {
+  draw() {
 
-	}
+  }
 }
 
 class Arrow extends Projectile {
-	constructor(a) {
-		super(a);
-	}
+  constructor(a) {
+    super(a);
+  }
 
-	draw() {
-		fill(0);
-		ellipse(this.x, this.y, this.size, this.size);
-	}
+  draw() {
+    fill(0);
+    ellipse(this.x, this.y, this.size, this.size);
+  }
 
-	move() {
-		this.x += 1;
-		this.y += 1;
-	}
+  move() {
+    this.x += 1;
+    this.y += 1;
+  }
 }
