@@ -1,0 +1,7 @@
+{
+  "world": {
+    "width": 100,
+    "length": 100
+  },
+  "zombies": 1
+}

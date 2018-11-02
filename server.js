@@ -17,9 +17,7 @@ const io = socket(server); // Waiting for client. Listen out for when the connec
 const Player = require('./classes/player.js');
 const Zombie = require('./classes/zombie.js');
 
-const WORLD_WIDTH = 100;
-const WORLD_HEIGHT = 100;
-const ZOMBIES = 1;
+const config = require('./config.json');
 
 const players = [];
 const zombies = [];
@@ -77,10 +75,10 @@ setInterval(() => {
 initZombies();
 
 function initZombies() {
-  for (let i = 0; i < ZOMBIES; i++) {
+  for (let i = 0; i < config.zombies; i++) {
     const zombie = new Zombie({
-      x: Math.random() * WORLD_WIDTH,
-      y: Math.random() * WORLD_HEIGHT,
+      x: Math.random() * config.world.width,
+      y: Math.random() * config.world.height,
       angle: 0,
       size: 20,
       health: 20,
