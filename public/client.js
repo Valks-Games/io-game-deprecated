@@ -153,30 +153,29 @@ function drawPlayers() {
 	}
 }
 
-function drawClientMessages() {
-	for (let message of messages) {
-		if (message.id != id) continue;
-		new Message({
-			x: client.x,
-			y: client.y,
-			text: message.text,
-			playerSize: client.size
-		}).draw();
-	}
-}
-
 function drawServerMessages() {
 	for (let message of messages) {
 		for (let player of players) {
 			if (player.id != message.id) continue;
 			if (player.id == id) continue;
-			new Message({
+			new Player({
 				x: player.x,
 				y: player.y,
-				text: message.text,
-				playerSize: player.size
-			}).draw();
+				angle: player.angle,
+				size: player.size,
+				name: player.name,
+				health: player.health,
+				color: player.color,
+				client: false
+			}).drawMessage(message.text);
 		}
+	}
+}
+
+function drawClientMessages() {
+	for (let message of messages) {
+		if (message.id != id) continue;
+		client.drawMessage(message.text);
 	}
 }
 
