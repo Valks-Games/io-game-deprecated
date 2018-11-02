@@ -10,3 +10,80 @@ body {
   position: absolute; z-index: 1;
   top: 90%;
 }
+
+.GUI {
+  float: left;
+  background-color: #333333;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: white;
+  text-align: center;
+  padding: 6px;
+  border-radius: 15px;
+  opacity: 0.8;
+  position: relative; z-index: 1;
+}
+
+#main-box {
+  float: left;
+  width: 50%;
+  background-color: #333333;
+  left: 2px;
+}
+
+#side-box {
+  float: right;
+  width: 40%;
+  background-color: #333333;
+  right: 15px;
+}
+
+#top-box {
+  top: 5px;
+  float: right;
+  right: 15px;
+  width: 40%;
+  font-size: 12px;
+}
+
+#defaultCanvas0 {
+  position: absolute; top: 0; right: 0; left: 0; bottom: 0;
+}
+
+.colors button {
+	width: 20px;
+	height: 20px;
+	border: none;
+	outline: none;
+	background-color: var(--bg);
+	border-radius: 6px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+}
+
+.colors button:hover {
+	border-radius: 15px;
+}
+
+#button {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: black;
+  cursor: pointer;
+  color: white;
+  font-size: 10px;
+  outline: none;
+  border: none;
+}
+
+#button:hover {
+
+}
+
+#button:active {
+
+}

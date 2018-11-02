@@ -19,6 +19,32 @@
 </head>
 
 <body>
+  <div class="container" id="GUI">
+    <div class="GUI" id="main-box">
+      <p>Enter a name</p>
+      <input type="text" maxlength="15" id="myText" placeholder="Someone">
+      <div class="buttons">
+        <button id="button" onclick="play()">Play</button>
+      </div>
+    </div>
+    <div class="GUI" id="side-box">
+      <p>Choose a Color</p>
+      <div class="colors">
+        <button style="--bg: rgb(255,223,196)" onclick="color1()"></button>
+        <button style="--bg: rgb(225,184,153)" onclick="color2()"></button>
+        <button style="--bg: rgb(255,220,178)" onclick="color3()"></button>
+        <button style="--bg: rgb(186,108,73)" onclick="color4()"></button>
+        <button style="--bg: rgb(240,200,201)" onclick="color5()"></button>
+        <button style="--bg: rgb(92,56,54)" onclick="color6()"></button>
+        <button style="--bg: rgb(48,46,46)" onclick="color7()"></button>
+      </div>
+    </div>
+    <div class="GUI" id="top-box">
+      <p><b>Controls</b></p>
+      <p>Move: &lt;WASD&gt; or &lt;Arrow Keys&gt;</p>
+      <p>Chat: &lt;Enter&gt;
+    </div>
+  </div>
   <div class="chat">
     <input type="text" maxlength="100" id="chat" value="" autofocus>
   </div>

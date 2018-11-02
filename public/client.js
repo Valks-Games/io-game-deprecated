@@ -16,7 +16,10 @@ let messages = [];
 let client;
 let id;
 
-let playing = true;
+let playing = false;
+let creatingPlayer = false;
+let dead = false;
+let playerName = "unnamed";
 
 // Zoom
 let zoom = 0;
@@ -40,60 +43,86 @@ function setup() {
 	textFont(myFont);
 	noStroke();
 	noSmooth();
-
-	createClient();
-	client = findClient();
-
-	socket = io.connect("http://142.161.99.156:4000/", { // Make connection
-		reconnect: true
-	});
-
-	socket.emit('new_player', { // We join a server, we must now tell the server we are here..
-		x: client.x,
-		y: client.y,
-		size: client.size,
-		name: client.name,
-		health: client.health
-	});
-
-	listener();
-}
-
-function createClient() {
-	entities.push(new Player({
-		x: 100,
-		y: 100,
-		angle: 0,
-		size: 20,
-		name: "Someone",
-		health: 20,
-		client: true
-	})); // client
-}
-
-function findClient() { // We have to do it this way because of how zombies search for entities and this client (player) is a entity too.
-	client = null;
-	for (const entity of entities) {
-		if (!(entity instanceof Player)) continue;
-		if (!entity.client) continue;
-		return entity;
-	}
 }
 
 function draw() {
 	handleZoom();
 	background(200);
 
-	if (client) camera(client.x, client.y, cutSceneLength + height - currentZoom - cutSceneSlider, client.x, client.y, 0, 0, 1, 0);
+	playerSetup();
 
-	drawServerMessages();
-	drawClientMessages();
+	if (playing) {
+		if (client) camera(client.x, client.y, cutSceneLength + height - currentZoom - cutSceneSlider, client.x, client.y, 0, 0, 1, 0);
 
-	drawEntities();
-	drawWeapons();
-	drawPlayers();
+		drawServerMessages();
+		drawClientMessages();
 
-	drawTree(); // 3D Reference
+		drawEntities();
+		drawWeapons();
+		drawPlayers();
+
+		drawTree(); // 3D Reference
+	}
+
+	if (dead) {
+		dead = false;
+		playing = false;
+		toggleMenu();
+		socket.disconnect();
+	}
+}
+
+function playerSetup() {
+	if (creatingPlayer) {
+		let myColor;
+		if (color) {
+			myColor = {
+				r: color.r,
+				g: color.g,
+				b: color.b
+			};
+		} else {
+			myColor = {
+				r: 255,
+				g: 223,
+				b: 196
+			};
+		}
+		entities.push(new Player({
+			x: 100,
+			y: 100,
+			angle: 0,
+			size: 20,
+			name: playerName,
+			health: 20,
+			color: myColor,
+			client: true
+		})); // client
+
+		// Find client
+		for (const entity of entities) {
+			if (!(entity instanceof Player)) continue;
+			if (!entity.client) continue;
+			client = entity;
+		}
+
+		socket = io.connect("http://142.161.99.156:4000/", { // Make connection
+			reconnect: true
+		});
+
+		socket.emit('new_player', { // We join a server, we must now tell the server we are here..
+			x: client.x,
+			y: client.y,
+			size: client.size,
+			name: client.name,
+			health: client.health
+		});
+
+		listener();
+
+		creatingPlayer = false;
+		playing = true;
+	}
 }
 
 function drawEntities() {
