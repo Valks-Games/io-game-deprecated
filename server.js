@@ -30,16 +30,10 @@ let storedZombies = [];
 let a = 0;
 
 setInterval(() => {
-  storedZombies = zombies; // store the zombies in storedZombies
   for (const zombie of zombies) { // loop through each zombie
     zombie.findTarget(players); // find nearest player
-    zombie.moveTowardsTarget(); // move if target is set (zombie is changed)
-
-
-    for (let i = 0; i < storedZombies.length; i++) {
-      if (storedZombies[i].x != zombies[i].x) {
-        sendData = true;
-      }
+    if (zombie.moveTowardsTarget()) {
+      sendData = true;
     }
   }
 

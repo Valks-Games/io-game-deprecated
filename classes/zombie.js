@@ -15,9 +15,9 @@ module.exports = class Zombie {
     let nearestTarget = null;
 
     for (const player of players) {
-      const dx = Math.abs(this.x - player.x);
-      const dy = Math.abs(this.y - player.y);
-      const distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+      let dx = Math.abs(this.x - player.x);
+      let dy = Math.abs(this.y - player.y);
+      let distance = Math.hypot(dx, dy);
 
       if (distance < this.spotRange && distance < nearestDistance) {
         nearestDistance = distance;
@@ -33,7 +33,7 @@ module.exports = class Zombie {
   }
 
   moveTowardsTarget() {
-    if (!this.target) return;
+    if (!this.target) return false;
 
     const dx = this.target.x - this.x;
     const dy = this.target.y - this.y;
@@ -45,5 +45,7 @@ module.exports = class Zombie {
 
     this.x += xVelocity;
     this.y += yVelocity;
+
+    return true;
   }
 };
