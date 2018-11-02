@@ -51,27 +51,6 @@ setInterval(() => {
   }
 }, 33);
 
-/* setInterval(function() { // Zombie data
-	storedZombies = zombies;
-
-	for (const zombie of zombies) {
-		zombie.findTarget(players);
-		zombie.moveTowardsTarget();
-
-		for (let i = 0; i < storedZombies.length; i++) {
-			if (zombies[i].x != storedZombies[i].x) {
-				sendData = true;
-			}
-		}
-
-	}
-	if (sendData) {
-		console.log("sent some data" + ++i);
-		sendData = false;
-		io.sockets.emit('zombie_update', zombies);
-	}
-}, 33);*/
-
 initZombies();
 
 function initZombies() {
