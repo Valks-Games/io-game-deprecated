@@ -1,11 +1,12 @@
 module.exports = class Player { // Created to simplify things..
-	constructor(id, x, y, size, name, health, angle) {
-		this.id = id;
-		this.x = x;
-		this.y = y;
-		this.size = size;
-		this.name = name;
-		this.health = health;
-		this.angle = angle;
+	constructor(a) {
+		this.id = a.id;
+		this.x = a.x;
+		this.y = a.y;
+		this.size = a.size;
+		this.name = a.name;
+		this.health = a.health;
+		this.angle = a.angle;
+		this.color = a.color;
 	}
 }

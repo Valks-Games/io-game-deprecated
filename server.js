@@ -22,7 +22,16 @@ let timeouts = [];
 
 io.on('connection', function(socket) {
 	socket.on('new_player', function(data) {
-		let player = new Player(socket.id, data.x, data.y, data.size, data.name, data.health, 0);
+		let player = new Player({
+			id: socket.id,
+			x: data.x,
+			y: data.y,
+			size: data.size,
+			name: data.name,
+			health: data.health,
+			angle: 0,
+			color: data.color
+		});
 		players.push(player);
 
 		io.sockets.emit('client_ids', players); // Emit data because all clients need to see new client..
@@ -37,7 +46,6 @@ io.on('connection', function(socket) {
 			if (player.id != socket.id) continue; // This is how we tell which player to update..
 			player.x = data.x;
 			player.y = data.y;
-			player.size = data.size;
 			player.health = data.health;
 			player.angle = data.angle;
 		}

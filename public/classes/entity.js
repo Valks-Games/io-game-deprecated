@@ -31,7 +31,7 @@ class LivingEntity extends Entity {
 	}
 
 	draw() {
-		fill(this.color.r, this.color.g, this.color.b);
+		if (this.color) fill(this.color.r, this.color.g, this.color.b);
 		ellipse(this.x, this.y, this.size, this.size);
 	}
 }
@@ -78,7 +78,7 @@ class Player extends LivingEntity {
 	}
 
 	drawNonRotatingElements() {
-		text(this.name, this.x, this.y);
+		text(this.name, this.x - textWidth(this.name) / 2, this.y - this.size / 2 - textDescent());
 	}
 
 	drawEyes() {

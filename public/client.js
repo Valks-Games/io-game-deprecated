@@ -115,7 +115,8 @@ function playerSetup() {
 			y: client.y,
 			size: client.size,
 			name: client.name,
-			health: client.health
+			health: client.health,
+			color: color
 		});
 
 		listener();
@@ -146,6 +147,7 @@ function drawPlayers() {
 			size: player.size,
 			name: player.name,
 			health: player.health,
+			color: player.color,
 			client: false
 		}).draw();
 	}
@@ -225,7 +227,6 @@ setInterval(function() { // This is the client sending data to the server every 
 			socket.emit('player_update', {
 				x: client.x,
 				y: client.y,
-				size: client.size,
 				name: client.name,
 				health: client.health,
 				angle: client.angle
