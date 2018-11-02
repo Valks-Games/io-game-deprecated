@@ -20,7 +20,7 @@ let id;
 let playing = false;
 let creatingPlayer = false;
 let dead = false;
-const playerName = 'unnamed';
+let playerName = 'unnamed';
 
 // Zoom
 let zoom = 0;

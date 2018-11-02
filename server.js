@@ -37,7 +37,7 @@ setInterval(() => {
 
 
     for (let i = 0; i < storedZombies.length; i++) {
-      if (storedZombies[i].x !== zombies[i].x) {
+      if (storedZombies[i].x != zombies[i].x) {
         sendData = true;
       }
     }
