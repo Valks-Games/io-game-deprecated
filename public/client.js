@@ -10,6 +10,7 @@ let weapons = [];
 
 // Other clients
 let players = [];
+let zombies = [];
 let messages = [];
 
 // Client
@@ -60,6 +61,7 @@ function draw() {
 		drawEntities();
 		drawWeapons();
 		drawPlayers();
+		drawZombies();
 
 		drawTree(); // 3D Reference
 	}
@@ -135,6 +137,10 @@ function drawEntities() {
 
 function drawWeapons() {
 	for (weapon of weapons) weapon.draw();
+}
+
+function drawZombies() {
+	for (zombie of zombies) new Zombie(zombie).draw();
 }
 
 function drawPlayers() {
@@ -227,5 +233,9 @@ function listener() {
 
 	socket.on('messages', function(data) {
 		messages = data;
+	});
+
+	socket.on('zombie_update', function(data) {
+		zombies = data;
 	});
 }

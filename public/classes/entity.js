@@ -31,7 +31,11 @@ class LivingEntity extends Entity {
 	}
 
 	draw() {
-		if (this.color) fill(this.color.r, this.color.g, this.color.b);
+		if (this.color) {
+			fill(this.color.r, this.color.g, this.color.b);
+		} else {
+			fill(0);
+		}
 		ellipse(this.x, this.y, this.size, this.size);
 	}
 }
@@ -172,48 +176,12 @@ class Zombie extends LivingEntity {
 	draw() {
 		super.draw();
 		this.drawEyes();
-
-		this.findTarget();
-		this.moveTowardsTarget();
 	}
 
 	drawEyes() {
 		fill(0, 255, 0);
 		ellipse(this.x, this.y, this.size / 10, this.size / 10);
 		ellipse(this.x, this.y, this.size / 10, this.size / 10);
-	}
-
-	findTarget() {
-		let nearestDistance = Infinity;
-		let nearestTarget = null;
-
-		for (const entity of entities) {
-			const distance = dist(entity.x, entity.y, this.x, this.y);
-
-			if (entity != this && !(entity instanceof Zombie) && distance < nearestDistance) {
-				nearestDistance = distance;
-				nearestTarget = entity;
-			}
-		}
-
-		if (!nearestTarget) return;
-
-		this.target = nearestTarget;
-	}
-
-	moveTowardsTarget() {
-		if (!this.target) return;
-
-		let dx = this.target.x - this.x;
-		let dy = this.target.y - this.y;
-
-		let angle = Math.atan2(dy, dx);
-
-		let xVelocity = 0.5 * Math.cos(angle);
-		let yVelocity = 0.5 * Math.sin(angle);
-
-		this.x += xVelocity;
-		this.y += yVelocity;
 	}
 }
 

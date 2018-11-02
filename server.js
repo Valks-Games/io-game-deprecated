@@ -15,10 +15,81 @@ var io = socket(server); // Waiting for client. Listen out for when the connecti
 
 // Classes
 var Player = require('./classes/player.js');
+var Zombie = require('./classes/zombie.js');
+
+const WORLD_WIDTH = 100;
+const WORLD_HEIGHT = 100;
+const ZOMBIES = 1;
 
 let players = [];
+let zombies = [];
 let messages = [];
 let timeouts = [];
+
+let sendData = false;
+
+let storedZombies = [];
+
+let i = 0;
+
+setInterval(function() {
+	storedZombies = zombies; // store the zombies in storedZombies
+	for (let zombie of zombies) { // loop through each zombie
+
+
+		zombie.findTarget(players); // find nearest player
+		zombie.moveTowardsTarget(); // move if target is set (zombie is changed)
+
+
+
+		for (let i = 0; i < storedZombies.length; i++) {
+			if (storedZombies[i].x != zombies[i].x) {
+				sendData = true;
+			}
+		}
+
+
+	}
+
+}, 33);
+
+/*setInterval(function() { // Zombie data
+	storedZombies = zombies;
+
+	for (const zombie of zombies) {
+		zombie.findTarget(players);
+		zombie.moveTowardsTarget();
+
+		for (let i = 0; i < storedZombies.length; i++) {
+			if (zombies[i].x != storedZombies[i].x) {
+				sendData = true;
+			}
+		}
+
+	}
+	if (sendData) {
+		console.log("sent some data" + ++i);
+		sendData = false;
+		io.sockets.emit('zombie_update', zombies);
+	}
+}, 33);*/
+
+initZombies();
+
+function initZombies() {
+	for (let i = 0; i < ZOMBIES; i++) {
+		let zombie = new Zombie({
+			x: Math.random() * WORLD_WIDTH,
+			y: Math.random() * WORLD_HEIGHT,
+			angle: 0,
+			size: 20,
+			health: 20,
+			speed: 5,
+			spotRange: 50
+		});
+		zombies.push(zombie);
+	}
+}
 
 io.on('connection', function(socket) {
 	socket.on('new_player', function(data) {
@@ -35,6 +106,7 @@ io.on('connection', function(socket) {
 		players.push(player);
 
 		io.sockets.emit('client_ids', players); // Emit data because all clients need to see new client..
+		io.sockets.emit('zombie_update', zombies);
 
 		socket.emit('handshake', socket.id); // So the client can tell what id they are..
 
