@@ -25,8 +25,6 @@ const timeouts = [];
 
 let sendData = false;
 
-let storedZombies = [];
-
 let a = 0;
 
 setInterval(() => {
@@ -38,7 +36,6 @@ setInterval(() => {
   }
 
   if (sendData) {
-    console.log('sent some data ' + ++a);
     sendData = false;
     io.sockets.emit('zombie_update', zombies);
   }

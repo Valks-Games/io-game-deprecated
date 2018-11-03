@@ -11,8 +11,6 @@ npm i socket.io --save
 #### Optional Dependencies
 ```
 npm i -g nodemon
-npm i eslint --save-dev
-npm i eslint-config-google --save-dev
 ```
 #### Graphics
 
