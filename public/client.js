@@ -91,8 +91,8 @@ function playerSetup() {
       };
     }
     entities.push(new Player({
-      x: 100,
-      y: 100,
+      x: Math.floor(Math.random() * windowWidth),
+      y: Math.floor(Math.random() * windowHeight),
       angle: 0,
       size: 20,
       name: playerName,
@@ -108,7 +108,7 @@ function playerSetup() {
       client = entity;
     }
 
-    socket = io.connect('http://142.161.99.156:4000/', { // Make connection
+    socket = io.connect('http://localhost:4000/', { // Make connection
       reconnect: true,
     });
 
