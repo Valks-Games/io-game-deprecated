@@ -91,8 +91,8 @@ function playerSetup() {
       };
     }
     entities.push(new Player({
-      x: Math.floor(Math.random() * windowWidth),
-      y: Math.floor(Math.random() * windowHeight),
+      x: (Math.floor(Math.random() * windowWidth)) - (Math.floor(windowWidth/2)),
+      y: (Math.floor(Math.random() * windowHeight)) - (Math.floor(windowHeight/2)),
       angle: 0,
       size: 20,
       name: playerName,

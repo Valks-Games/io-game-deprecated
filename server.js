@@ -29,9 +29,8 @@ let a = 0;
 setInterval(() => {
   for (const zombie of zombies) { // loop through each zombie
     zombie.findTarget(players); // find nearest player
-    if (zombie.moveTowardsTarget()) {
-      io.sockets.emit('zombie_update', zombies);
-    }
+    zombie.moveTowardsTarget(); //stalks the nearest player if there's any close to it or randomly roams the world if not
+    io.sockets.emit('zombie_update', zombies);
   }
 
 }, 33);
