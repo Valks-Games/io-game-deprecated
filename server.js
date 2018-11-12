@@ -23,27 +23,20 @@ const zombies = [];
 const messages = [];
 const timeouts = [];
 
-let sendData = false;
 
 let a = 0;
 
 setInterval(() => {
   for (const zombie of zombies) { // loop through each zombie
     zombie.findTarget(players); // find nearest player
-    if (zombie.moveTowardsTarget()) {
-      sendData = true;
-    }
-  }
-
-  if (sendData) {
-    sendData = false;
+    zombie.moveTowardsTarget(); //stalks the nearest player if there's any close to it or randomly roams the world if not
     io.sockets.emit('zombie_update', zombies);
   }
+
 }, 33);
 
-initZombies();
 
-function initZombies() {
+(function initZombies() {
   for (let i = 0; i < config.zombies; i++) {
     const zombie = new Zombie({
       x: Math.random() * config.world.width,
@@ -56,7 +49,7 @@ function initZombies() {
     });
     zombies.push(zombie);
   }
-}
+})();
 
 io.on('connection', (socket) => {
   socket.on('new_player', (data) => {
@@ -87,6 +80,8 @@ io.on('connection', (socket) => {
       player.y = data.y;
       player.health = data.health;
       player.angle = data.angle;
+      break; //stops the loop once the player is found
+      
     }
     io.sockets.emit('client_ids', players);
   });
@@ -115,6 +110,7 @@ io.on('connection', (socket) => {
       if (player.id != socket.id) continue;
       const index = players.indexOf(player);
       players.splice(index, 1);
+      break; //stops the loop once the removed player is found
     }
 
     io.sockets.emit('client_ids', players); // Emit data because all clients no longer need to see old client..
