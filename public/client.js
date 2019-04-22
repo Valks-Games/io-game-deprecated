@@ -84,15 +84,16 @@ function playerSetup() {
         b: color.b,
       };
     } else {
-      myColor = {
+      myColor = { // Light skin color
         r: 255,
         g: 223,
         b: 196,
       };
     }
+
     entities.push(new Player({
-      x: (Math.floor(Math.random() * windowWidth)) - (Math.floor(windowWidth/2)),
-      y: (Math.floor(Math.random() * windowHeight)) - (Math.floor(windowHeight/2)),
+      x: (Math.floor(Math.random() * windowWidth)) - (Math.floor(windowWidth / 2)),
+      y: (Math.floor(Math.random() * windowHeight)) - (Math.floor(windowHeight / 2)),
       angle: 0,
       size: 20,
       name: playerName,

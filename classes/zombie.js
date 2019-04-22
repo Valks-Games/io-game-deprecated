@@ -38,17 +38,15 @@ module.exports = class Zombie {
   }
 
   moveTowardsTarget() {
+    if (!this.target) {
 
-    
-    if (!this.target){
-
-      //Zombies randomly roam the map when they can't spot any of the players
+      // Zombies randomly roam the map when they can't spot any of the players
       this.roamX += 0.05;
       this.roamY += 0.05;
-      this.x += (Perlin.noise( this.roamX ) * 6) - 3;
-      this.y += (Perlin.noise( this.roamY ) * 6) - 3;
-      
-    } else{
+      this.x += (Perlin.noise(this.roamX) * 6) - 3;
+      this.y += (Perlin.noise(this.roamY) * 6) - 3;
+
+    } else {
       const dx = this.target.x - this.x;
       const dy = this.target.y - this.y;
 
@@ -60,8 +58,6 @@ module.exports = class Zombie {
       this.x += xVelocity;
       this.y += yVelocity;
     }
-
-    
 
     return true;
   }

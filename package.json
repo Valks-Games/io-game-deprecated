@@ -15,6 +15,6 @@
   "dependencies": {
     "express": "^4.16.4",
     "proc-noise": "0.0.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.2.0"
   }
 }

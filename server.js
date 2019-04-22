@@ -23,18 +23,15 @@ const zombies = [];
 const messages = [];
 const timeouts = [];
 
-
 let a = 0;
 
 setInterval(() => {
-  for (const zombie of zombies) { // loop through each zombie
-    zombie.findTarget(players); // find nearest player
-    zombie.moveTowardsTarget(); //stalks the nearest player if there's any close to it or randomly roams the world if not
+  for (const zombie of zombies) {
+    zombie.findTarget(players); // Searches for nearest target.
+    zombie.moveTowardsTarget(); // Roams around world if not moving towards target.
     io.sockets.emit('zombie_update', zombies);
   }
-
 }, 33);
-
 
 (function initZombies() {
   for (let i = 0; i < config.zombies; i++) {
@@ -45,7 +42,7 @@ setInterval(() => {
       size: 20,
       health: 20,
       speed: 5,
-      spotRange: 50,
+      spotRange: 50
     });
     zombies.push(zombie);
   }
@@ -81,7 +78,7 @@ io.on('connection', (socket) => {
       player.health = data.health;
       player.angle = data.angle;
       break; //stops the loop once the player is found
-      
+
     }
     io.sockets.emit('client_ids', players);
   });
@@ -125,14 +122,14 @@ function Message(id, text) {
 
   this.initLife = function() {
     const timeout = setTimeout(
-        () => {
-          for (const message of messages) {
-            if (message.id != id) continue;
-            const index = messages.indexOf(message);
-            messages.splice(index, 1);
-            io.sockets.emit('messages', messages); // Update for all other clients..
-          }
-        }, 6000); // lifetime in ms of message being displayed..
+      () => {
+        for (const message of messages) {
+          if (message.id != id) continue;
+          const index = messages.indexOf(message);
+          messages.splice(index, 1);
+          io.sockets.emit('messages', messages); // Update for all other clients..
+        }
+      }, 6000); // lifetime in ms of message being displayed..
     timeouts.push({
       timeout,
       id,
