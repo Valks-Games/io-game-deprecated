@@ -1,3 +1,5 @@
+ATTENTION: This version is outdated! Please refer to [io-game-v2](https://github.com/valkyrienyanko/io-game-v2)!
+
 ### IO Game
 A multiplayer in-browser game. The end goal is to create a zombie survival like scenario.
 
